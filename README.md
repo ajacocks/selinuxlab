@@ -8,7 +8,7 @@ This is an Ansible playbook and related files to set up a SELinux Lab on Redhat 
 
 ## Cases covered:
 
-- Setting wromg permissions to /etc/shadow and see that SELinux prevents information disclosure by a CGI script trying to read the shadow file
+- Setting wrong permissions to /etc/shadow and see that SELinux prevents information disclosure by a CGI script trying to read the shadow file
 - Setting up an NFS Server with protocol version 4.2 which exports SElinux file contexts
 - Setting up a simple SMB Server for two use cases: Home directory mount and mount of a generic share
 - Installation of a Tomcat server with a example application to be confined
@@ -16,7 +16,7 @@ This is an Ansible playbook and related files to set up a SELinux Lab on Redhat 
 ## Usage:
 
 ```bash
-ansible-play -k setup-lab.yml
+ansible-playbook -k setup-lab.yml
 ```
 
 ## Future development
