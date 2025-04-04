@@ -6,7 +6,7 @@
   tasks:
 
   - name: install packages
-    package:
+    ansible.builtin.package:
       name: "{{ item }}"
       state: present
     with_items:
@@ -20,43 +20,46 @@
       - gcc-c++
       - libcurl-devel.x86_64
       - rpm-build
+      - rhel-system-roles
 
   - name: Ensure SELinux is in enforcing mode
-    selinux:
-      policy: targeted
-      state: enforcing
+    vars:
+      selinux_policy: targeted
+      selinux_state: enforcing
+    include_role:
+      name: redhat.rhel_system_roles.selinux
 
   - name: Create dir with working files
-    file:
+    ansible.builtin.file:
       path: /root/selinuxlab
       state: directory
       mode: 0755
 
   - name: Ensure SELinux test app source is on the system
-    copy:
+    ansible.builtin.copy:
       src: files/testapp.c
       dest: /root/selinuxlab
       mode: 0755
 
   - name: Ensure Makefile for the test app is copied to the system
-    copy:
+    ansible.builtin.copy:
       src: files/Makefile
       dest: /root/selinuxlab
       mode: 0755
 
   - name: Ensure SELinux test app service file is on the system
-    copy:
+    ansible.builtin.copy:
       src: files/testapp.service
       dest: /root/selinuxlab/testapp.service
       mode: 0644
 
   - name: Compile the testapp
-    shell:
+    ansible.builtin.shell:
       cmd: "make -f /root/selinuxlab/Makefile"
       chdir: /root/selinuxlab
 
   - name: Install the testapp
-    shell:
+    ansible.builtin.shell:
       cmd: "make install -f /root/selinuxlab/Makefile"
       chdir: /root/selinuxlab
 
